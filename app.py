@@ -56,7 +56,7 @@ if escolha == "Buscar CEP":
 ##### BOTÃO DESCOBRIR CEP #####
 
 elif escolha == "Descobrir CEP":
-    st.image("descobrir.png")
+    st.image("Descobrir.png")
     st.header("Descobrir CEP pelo Endereço")
     endereco_usuario = st.text_input("Digite o endereço (ex: Rua olga, Barueri, SP):")
 
