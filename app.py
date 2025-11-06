@@ -21,33 +21,34 @@ st.sidebar.write("Aplicação para buscar endereço a partir do CEP e mostrar lo
 escolha = st.sidebar.selectbox("Escolha uma opção:", opcao)
 ##### BOTÃO BUSCAR CEP #####
 
-if pagina == "Buscar CEP":
-    st.header("Buscar endereço pelo CEP")
+if escolha == "Buscar CEP":
+    st.image("principal.png")
+    st.header("Buscar Endereço pelo CEP")
     cep = st.text_input("Digite o CEP (somente números):")
 
+    if st.button("buscar"):
+        if len(cep) != 8 or not cep.isdigit():
+            st.error("Por Favor, insira um CEP válido com 8 digitos numéricos")
+        else:
+            try:
+                endereco = BuscarCep.buscar_cep(cep)
+                if endereco:
+                    st.success("Endereço encontrado")
+                    st.write(f"CEP: {endereco[0]}")
+                    st.write(f"Endereço: {endereco[1]}")
+                    st.write(f"Bairro: {endereco[2]}")
+                    st.write(f"Cidade: {endereco[3]}")
+                    st.write(f"Estado: {endereco[4]}")
 
-    if st.button("Buscar"):
-            if len(cep) != 8 or not cep.isdigit():
-                st.error("Por favor, insira um CEP  válido com 8 digitos numéricos.")
-            else:
-                try:
-                    endereço = BuscarCep.buscar_cep(cep)
-                    if endereço:
-                         st.success("Endereço encontrado:")
-                         st.write(f"CEP: {endereço[0]}")
-                         st.write(f"Endereço: {endereço[1]}")
-                         st.write(f"Bairro: {endereço[2]}")
-                         st.write(f"cidade: {endereço[3]}")
-                         st.write(f"Estado: {endereço[4]}")
+                    ## mapas
 
-                         ## Mapas
-                         st.title("Localização no Mapa")
-                         df = pd.DataFrame({"latitude": [endereço[5]], "longitude": [endereço[6]]})
-                         st.map(df, zoom=15)
-                    else:
-                         st.error("CEP não encontrado")
-                except Exception as e:
-                     st.error(f"Ocorreu um erro ao buscar o CEP: {e}")
+                    st.title("Localização no mapa")
+                    df = pd.DataFrame({"latitude": [endereco[5]], "longitude": [endereco[6]]})
+                    st.map(df, zoom=15)
+                else:
+                    st.error("CEP Não encontrado")
+            except Exception as e:
+                st.error(f"Ocorreu um erro ao buscar o CEP: {e}")
 
 
 
@@ -71,3 +72,4 @@ elif escolha == "Descobrir CEP":
                 st.error(f"Ocorreu um erro ao descobrir o CEP: {e}")
 
             
+
